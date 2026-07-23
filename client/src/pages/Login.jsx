@@ -1,18 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 function Login() {
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-
-    // ADD THIS
     const navigate = useNavigate();
 
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    // If already logged in, go directly to Dashboard
+    useEffect(() => {
+
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            navigate("/dashboard");
+        }
+
+    }, [navigate]);
+
+    // Login Function
     const handleLogin = async (e) => {
 
         e.preventDefault();
+
+        setError("");
+
+        // Validation
+        if (username.trim() === "" || password.trim() === "") {
+
+            setError("Please enter Username and Password.");
+
+            return;
+
+        }
+
+        setLoading(true);
 
         try {
 
@@ -21,51 +47,111 @@ function Login() {
                 password
             });
 
+            // Save JWT Token
             localStorage.setItem("token", response.data.token);
 
             alert("Login Successful");
 
-            // ADD THIS
+            // Redirect to Dashboard
             navigate("/dashboard");
 
         } catch (err) {
 
-            alert("Invalid Username or Password");
+            if (err.response) {
+
+                setError(err.response.data.message);
+
+            } else {
+
+                setError("Server Error");
+
+            }
 
             console.log(err);
+
+        } finally {
+
+            setLoading(false);
+
         }
+
     };
 
     return (
-        <div className="container mt-5">
-            <div className="card p-4">
-                <h2>Login</h2>
+
+        <div className="container d-flex justify-content-center align-items-center min-vh-100">
+
+            <div
+                className="card shadow p-4"
+                style={{ width: "400px" }}
+            >
+
+                <h2 className="text-center mb-4">
+                    Mini Attendance Management System
+                </h2>
 
                 <form onSubmit={handleLogin}>
 
-                    <input
-                        className="form-control mb-3"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+                    <div className="mb-3">
 
-                    <input
-                        type="password"
-                        className="form-control mb-3"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                        <label className="form-label">
+                            Username
+                        </label>
 
-                    <button className="btn btn-primary">
-                        Login
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+
+                    </div>
+
+                    <div className="mb-3">
+
+                        <label className="form-label">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            className="form-control"
+                            placeholder="Enter Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+
+                    </div>
+
+                    {error && (
+
+                        <div className="alert alert-danger">
+
+                            {error}
+
+                        </div>
+
+                    )}
+
+                    <button
+                        type="submit"
+                        className="btn btn-primary w-100"
+                        disabled={loading}
+                    >
+
+                        {loading ? "Logging In..." : "Login"}
+
                     </button>
 
                 </form>
+
             </div>
+
         </div>
+
     );
+
 }
 
 export default Login;
