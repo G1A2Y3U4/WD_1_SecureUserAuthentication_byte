@@ -146,7 +146,7 @@ function Employees() {
                                     <td>{emp.email}</td>
                                     <td>{emp.department}</td>
                                     <td>{emp.designation}</td>
-                                    <td>{emp.status}</td>
+                                
 
                                     <td>
 
@@ -155,7 +155,7 @@ function Employees() {
                                             className="btn btn-warning btn-sm me-2"
                                         >
                                             Edit
-                                        </Link>
+                                        </Link>``
 
                                         <button
                                             className="btn btn-danger btn-sm"
