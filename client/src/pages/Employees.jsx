@@ -80,6 +80,7 @@ function Employees() {
                     Employees
                 </h2>
 
+                {/* Add Employee Button */}
                 <div className="text-center mb-4">
 
                     <Link
@@ -91,6 +92,7 @@ function Employees() {
 
                 </div>
 
+                {/* Search Box */}
                 <div className="row justify-content-center mb-4">
 
                     <div className="col-md-6">
@@ -107,6 +109,7 @@ function Employees() {
 
                 </div>
 
+                {/* Employee Table */}
                 <table className="table table-bordered table-striped">
 
                     <thead className="table-dark">
@@ -146,7 +149,7 @@ function Employees() {
                                     <td>{emp.email}</td>
                                     <td>{emp.department}</td>
                                     <td>{emp.designation}</td>
-                                
+                                    <td>{emp.status}</td>
 
                                     <td>
 
@@ -155,7 +158,7 @@ function Employees() {
                                             className="btn btn-warning btn-sm me-2"
                                         >
                                             Edit
-                                        </Link>``
+                                        </Link>
 
                                         <button
                                             className="btn btn-danger btn-sm"
@@ -170,6 +173,17 @@ function Employees() {
 
                             ))}
 
+                        {employees.length === 0 && (
+                            <tr>
+                                <td
+                                    colSpan="8"
+                                    className="text-center"
+                                >
+                                    No Employees Found
+                                </td>
+                            </tr>
+                        )}
+
                     </tbody>
 
                 </table>
@@ -179,6 +193,7 @@ function Employees() {
         </div>
 
     );
+
 }
 
 export default Employees;
