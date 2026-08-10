@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
@@ -10,17 +10,6 @@ function Login() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-
-    // If already logged in, go directly to Dashboard
-    useEffect(() => {
-
-        const token = localStorage.getItem("token");
-
-        if (token) {
-            navigate("/dashboard");
-        }
-
-    }, [navigate]);
 
     // Login Function
     const handleLogin = async (e) => {
@@ -47,27 +36,33 @@ function Login() {
                 password
             });
 
+            if (!response.data || !response.data.token) {
+                throw new Error("Invalid login response");
+            }
+
             // Save JWT Token
             localStorage.setItem("token", response.data.token);
 
             alert("Login Successful");
 
-            // Redirect to Dashboard
+            // Redirect to Dashboard only after a successful response
             navigate("/dashboard");
 
         } catch (err) {
 
+            localStorage.removeItem("token");
+
             if (err.response) {
 
-                setError(err.response.data.message);
+                setError(err.response.data.message || `Login failed (${err.response.status})`);
+                console.error("Login error response:", err.response.data, err.response.status);
 
             } else {
 
-                setError("Server Error");
+                setError(err.message || "Login failed. Please try again.");
+                console.error("Login error:", err.message, err);
 
             }
-
-            console.log(err);
 
         } finally {
 
@@ -79,16 +74,14 @@ function Login() {
 
     return (
 
-        <div className="container d-flex justify-content-center align-items-center min-vh-100">
+        <div className="auth-shell">
 
-            <div
-                className="card shadow p-4"
-                style={{ width: "400px" }}
-            >
+            <div className="auth-card">
 
-                <h2 className="text-center mb-4">
-                    Mini Attendance Management System
-                </h2>
+                <div className="text-center mb-4">
+                    <h2>Attendance Management</h2>
+                    <p className="text-muted mb-0">Secure admin access for employee and attendance control</p>
+                </div>
 
                 <form onSubmit={handleLogin}>
 
