@@ -1,37 +1,26 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
+    const links = [
+        { to: "/dashboard", label: "Dashboard" },
+        { to: "/employees", label: "Employees" },
+        { to: "/attendance", label: "Attendance" },
+        { to: "/leaves", label: "Leave Management" }
+    ];
 
     return (
-
-        <div
-            className="bg-dark grey text-white p-3"
-            style={{ width: "220px", minHeight: "100vh" }}
-        >
-
-            <Link
-                to="/dashboard"
-                className="btn btn-dark w-100  mt-4 mb-3"
-            >
-                Dashboard
-            </Link>
-
-            <Link
-                to="/employees"
-                className="btn btn-dark w-100 mb-3"
-            >
-                Employees
-            </Link>
-
-            <Link
-                to="/attendance"
-                className="btn btn-dark w-100"
-            >
-                Attendance
-            </Link>
-
+        <div className="sidebar-panel">
+            <div className="brand-pill">Attendance Hub</div>
+            {links.map((link) => (
+                <NavLink
+                    key={link.to}
+                    to={link.to}
+                    className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}
+                >
+                    {link.label}
+                </NavLink>
+            ))}
         </div>
-
     );
 }
 

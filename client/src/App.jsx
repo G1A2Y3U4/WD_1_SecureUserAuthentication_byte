@@ -8,6 +8,7 @@ import EditEmployee from "./pages/EditEmployee";
 import Attendance from "./pages/Attendance";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import Leave from "./pages/Leave";
 
 function App() {
 
@@ -63,6 +64,15 @@ function App() {
                     element={
                         <ProtectedRoute>
                             <Attendance />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/leaves"
+                    element={
+                        <ProtectedRoute>
+                            <Leave />
                         </ProtectedRoute>
                     }
                 />

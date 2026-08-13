@@ -114,14 +114,13 @@ function Attendance() {
 
         <Sidebar />
 
-        <div
-            className="container-fluid p-4"
-            style={{ flex: 1 }}
-        >
+        <div className="page-shell">
+            <div className="page-card">
 
-            <h2 className="text-center mb-4">
+            <h2 className="page-title">
                 Attendance Management
             </h2>
+            <p className="page-subtitle">Record attendance, status changes, and attendance history clearly.</p>
 
             <form
                 onSubmit={handleSubmit}
@@ -248,7 +247,7 @@ function Attendance() {
                 Attendance Records
             </h3>
 
-            <table className="table table-bordered table-striped">
+            <table className="table table-bordered table-modern">
 
                 <thead className="table-dark">
 
@@ -318,11 +317,13 @@ function Attendance() {
 
             </table>
 
+            </div>
+
         </div>
 
     </div>
 
- );
+    );
 
 }
 
