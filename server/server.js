@@ -12,6 +12,10 @@ const attendanceRoutes = require("./routes/attendanceRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const leaveRoutes = require("./routes/leaveRoutes");
 
+const protectedRoutes = require("./routes/protectedRoutes");
+
+const honeypotRoutes = require("./routes/honeypotRoutes");
+
 // Create Express App
 const app = express();
 
@@ -30,6 +34,8 @@ app.use("/api/employees", employeeRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/leaves", leaveRoutes);
+app.use("/api", protectedRoutes);
+app.use("/api/admin-portal", honeypotRoutes);
 
 // Handle Invalid Routes
 app.use((req, res) => {
